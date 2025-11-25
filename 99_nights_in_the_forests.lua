@@ -3,6 +3,10 @@ repeat
 	task.wait()
 until game:IsLoaded()
 
+if game.PlaceId ~= 79546208627805 then
+	return
+end
+
 local Hub = "Strive Hub"
 local Hub_Script_ID = "26b31ab20f03d29896dff090b9feb97b"
 local Discord_Invite = "bgzarKxdEK"
@@ -10,6 +14,15 @@ local UI_Theme = "Dark"
 
 local workink_enabled = true
 local workink_link = "https://ads.luarmor.net/v/cb/kJejUxnJZoDY/OuPhPjdhiUAweAuw"
+
+
+local PlaceIDs = {
+	["118693886221846"] = "9b5ab79f8007e89b695dac53c55f0904",
+	["8304191830"] = "0bd8fd6455fc4e4e8453091023892b7c",
+	["18687417158"] = "58b52abb25606af68adcd5c0ce248c92",
+	["94845773826960"] = "69559f04bcb1949ddbea9b5e419520cd",
+	["121864768012064"] = "20efe85b3452d1fa0feb38ce30bbad53",
+}
 
 makefolder(Hub)
 local key_path = Hub .. "/Key.txt"
@@ -21,15 +34,32 @@ local Cloneref = cloneref or function(instance)
 end
 local Players = Cloneref(game:GetService("Players"))
 local HttpService = Cloneref(game:GetService("HttpService"))
+local AssetService = Cloneref(game:GetService("AssetService"))
 local Request = http_request or request or syn.request or http
+local GamePlacesPages = AssetService:GetGamePlacesAsync()
+local Pages = GamePlacesPages:GetCurrentPage()
 
-API.script_id = Hub_Script_ID
+while true do
+	for _, place in ipairs(Pages) do
+		if PlaceIDs[tostring(place.PlaceId)] then
+			API.script_id = PlaceIDs[tostring(place.PlaceId)]
+			break
+		else
+			API.script_id = Hub_Script_ID
+		end
+	end
+	if GamePlacesPages.IsFinished then
+		break
+	end
+	GamePlacesPages:AdvanceToNextPageAsync()
+	Pages = GamePlacesPages:GetCurrentPage()
+end
 
 local Window
 local KeyInput = ""
 
 local function notify(title, content, duration)
-	UI:Notify({ Title = title, Content = content, Duration = duration or 8 })
+	UI:Notification({ Title = title, Content = content, Duration = duration or 8 })
 end
 
 local function checkKey(input_key)
@@ -112,7 +142,7 @@ MainTab:CreateButton({
 	end
 })
 
-UI:Notify({
+UI:Notification({
     Title = "Strive",
     Content = "Successfully loaded!",
     Duration = 3
