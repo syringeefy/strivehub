@@ -29,7 +29,7 @@ local Window
 local KeyInput = ""
 
 local function notify(title, content, duration)
-	UI:Notify({ Title = title, Content = content, Duration = duration or 8 })
+	UI:Notification({ Title = title, Content = content, Duration = duration or 8 })
 end
 
 local function checkKey(input_key)
@@ -112,8 +112,9 @@ MainTab:CreateButton({
 	end
 })
 
-UI:Notify({
+Luna:Notification({
     Title = "Strive",
     Content = "Successfully loaded!",
     Duration = 3
 })
+
