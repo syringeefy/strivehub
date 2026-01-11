@@ -31,6 +31,8 @@ local Discord_Invite = "bgzarKxdEK"
 local UI_Theme = "Dark"
 local workink_enabled = true
 local workink_link = "https://ads.luarmor.net/v/cb/kJejUxnJZoDY/OuPhPjdhiUAweAuw"
+local lootlabs_enabled = true
+local lootlabs_link = "https://ads.luarmor.net/v/cb/aIhgQBmobqwT/tItkoxKfEGbeUZCc"
 
 local CurrentPlaceId = tostring(game.PlaceId)
 local CurrentConfig = GameConfigs[CurrentPlaceId] or GameConfigs["79546208627805"]
@@ -120,9 +122,19 @@ local Input = Tabs.Main:AddInput("Key", {
 
 if workink_enabled then
     Tabs.Main:AddButton({
-        Title = "Get Key",
+        Title = "Get Key (workink)",
         Callback = function()
             setclipboard(workink_link)
+            notify("Copied To Clipboard", "Ad Reward Link has been copied to your clipboard", 16)
+        end,
+    })
+end
+
+if lootlabs_enabled then
+    Tabs.Main:AddButton({
+        Title = "Get Key (Lootlabs)",
+        Callback = function()
+            setclipboard(lootlabs_link)
             notify("Copied To Clipboard", "Ad Reward Link has been copied to your clipboard", 16)
         end,
     })
